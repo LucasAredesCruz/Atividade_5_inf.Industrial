@@ -1,4 +1,4 @@
 kivy>=2.2.0
-kivymd>=1.2.0
+kivymd==1.2.0
 pymodbus>=3.5.0
 pyModbusTCP>=0.2.0

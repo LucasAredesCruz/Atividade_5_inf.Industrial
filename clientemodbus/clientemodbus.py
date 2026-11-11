@@ -29,24 +29,24 @@ class ClienteMODBUS:
 
     # Funções de Leitura
     def ler_holding_register(self, addr):
-        resp = self._cliente.read_holding_registers(address=addr, count=1, slave=1)
+        resp = self._cliente.read_holding_registers(address=addr, count=1, device_id=1)
         return resp.registers if resp and not resp.isError() else None
 
     def ler_coil(self, addr):
-        resp = self._cliente.read_coils(address=addr, count=1, slave=1)
+        resp = self._cliente.read_coils(address=addr, count=1, device_id=1)
         return resp.bits[0] if resp and not resp.isError() else None
 
     def ler_input_register(self, addr):
-        resp = self._cliente.read_input_registers(address=addr, count=1, slave=1)
+        resp = self._cliente.read_input_registers(address=addr, count=1, device_id=1)
         return resp.registers if resp and not resp.isError() else None
 
     def ler_discrete_input(self, addr):
-        resp = self._cliente.read_discrete_inputs(address=addr, count=1, slave=1)
+        resp = self._cliente.read_discrete_inputs(address=addr, count=1, device_id=1)
         return resp.bits[0] if resp and not resp.isError() else None
 
     def ler_float32(self, addr):
         regs = self.ler_holding_register(addr) # Aqui necessita ler 2 registos se for float32 real (count=2)
-        resp = self._cliente.read_holding_registers(address=addr, count=2, slave=1)
+        resp = self._cliente.read_holding_registers(address=addr, count=2, device_id=1)
         if resp and not resp.isError() and len(resp.registers) == 2:
             b = struct.pack('>HH', resp.registers[0], resp.registers[1])
             return struct.unpack('>f', b)[0]
@@ -60,17 +60,17 @@ class ClienteMODBUS:
 
     # Funções de Escrita
     def escrever_holding_register(self, addr, valor):
-        resp = self._cliente.write_register(address=addr, value=int(valor), slave=1)
+        resp = self._cliente.write_register(address=addr, value=int(valor), device_id=1)
         return bool(resp and not resp.isError())
 
     def escrever_coil(self, addr, valor):
-        resp = self._cliente.write_coil(address=addr, value=bool(int(valor)), slave=1)
+        resp = self._cliente.write_coil(address=addr, value=bool(int(valor)), device_id=1)
         return bool(resp and not resp.isError())
 
     def escrever_float32(self, addr, valor):
         b = struct.pack('>f', float(valor))
         regs = [struct.unpack('>H', b[0:2])[0], struct.unpack('>H', b[2:4])[0]]
-        resp = self._cliente.write_registers(address=addr, values=regs, slave=1)
+        resp = self._cliente.write_registers(address=addr, values=regs, device_id=1)
         return bool(resp and not resp.isError())
 
     def escrever_bit_individual(self, addr, bit_index, valor_bit):

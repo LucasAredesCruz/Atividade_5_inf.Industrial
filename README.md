@@ -4,6 +4,7 @@ Aplicação desenvolvida em Python/KivyMD para leitura e escrita de dados utiliz
 
 ## Requisitos
 - Python 3.9+
+- Python deve estar na versão 3.12 (venv) ou anterior para rodar o kivy
 - Dependências listadas em `requirements.txt`
 
 ## Instalação
