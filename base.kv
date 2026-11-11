@@ -1,0 +1,146 @@
+<ModbusUI>:
+    md_bg_color: 0.95, 0.95, 0.96, 1
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(12)
+
+        MDLabel:
+            text: "Cliente Modbus TCP"
+            font_style: "H5"
+            bold: True
+            adaptive_height: True
+            halign: "center"
+
+        # Conexão
+        MDCard:
+            orientation: 'vertical'
+            padding: dp(12)
+            spacing: dp(8)
+            adaptive_height: True
+            elevation: 2
+
+            MDLabel:
+                text: "Configuração de Conexão"
+                font_style: "Subtitle1"
+                bold: True
+
+            MDBoxLayout:
+                spacing: dp(8)
+                adaptive_height: True
+
+                MDTextField:
+                    id: txt_ip
+                    hint_text: "IP do Servidor"
+                    text: "127.0.0.1"
+
+                MDTextField:
+                    id: txt_porta
+                    hint_text: "Porta"
+                    text: "502"
+
+            MDBoxLayout:
+                spacing: dp(8)
+                adaptive_height: True
+
+                MDRaisedButton:
+                    text: "Conectar"
+                    on_release: root.conectar()
+
+                MDRectangleFlatButton:
+                    text: "Desconectar"
+                    on_release: root.desconectar()
+
+        # Configuração de Operação
+        MDCard:
+            orientation: 'vertical'
+            padding: dp(12)
+            spacing: dp(8)
+            adaptive_height: True
+            elevation: 2
+
+            MDLabel:
+                text: "Parâmetros de Leitura / Escrita"
+                font_style: "Subtitle1"
+                bold: True
+
+            MDBoxLayout:
+                spacing: dp(8)
+                adaptive_height: True
+
+                MDTextField:
+                    id: txt_endereco
+                    hint_text: "Endereço Modbus"
+                    text: "0"
+
+                MDTextField:
+                    id: txt_valor
+                    hint_text: "Valor (Para Escrita)"
+                    text: "0"
+
+                MDTextField:
+                    id: txt_bit_index
+                    hint_text: "Índice do Bit (0-15)"
+                    text: "0"
+
+            MDLabel:
+                text: "Tipo de Dado:"
+                font_style: "Caption"
+
+            MDBoxLayout:
+                spacing: dp(4)
+                adaptive_height: True
+
+                MDRaisedButton:
+                    id: btn_tipo
+                    text: "Holding Register"
+                    on_release: root.abrir_menu_tipos()
+
+            MDBoxLayout:
+                spacing: dp(8)
+                adaptive_height: True
+
+                MDCheckbox:
+                    id: chk_recorrente
+                    active: False
+                    size_hint: None, None
+                    size: dp(48), dp(48)
+                    on_active: root.alternar_leitura_recorrente(self, self.active)
+
+                MDLabel:
+                    text: "Leitura Recorrente (1s)"
+                    valign: "center"
+
+        # Ações
+        MDBoxLayout:
+            spacing: dp(12)
+            adaptive_height: True
+
+            MDRaisedButton:
+                text: "Ler Dado"
+                on_release: root.executar_leitura()
+
+            MDRaisedButton:
+                text: "Escrever Dado"
+                on_release: root.executar_escrita()
+
+        # Log e Resultados
+        MDCard:
+            orientation: 'vertical'
+            padding: dp(12)
+            spacing: dp(8)
+            elevation: 1
+
+            MDLabel:
+                text: "Status & Resultado:"
+                font_style: "Subtitle1"
+                bold: True
+                adaptive_height: True
+
+            ScrollView:
+                MDLabel:
+                    id: lbl_status
+                    text: "Aguardando ação..."
+                    theme_text_color: "Secondary"
+                    adaptive_height: True
