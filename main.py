@@ -1,7 +1,7 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
 # Importamos a classe de Interface do outro ficheiro
-from clientemodbus import ModbusUI
+from clientemodbus.clientemodbus import ModbusUI
 
 class ModbusApp(MDApp):
     def build(self):
